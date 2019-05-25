@@ -1,4 +1,5 @@
 window.onload=function(){
+	
 	var details = document.getElementsByClassName("details")[0];
 	// console.log(details);
 	// details.onclick=function(){
