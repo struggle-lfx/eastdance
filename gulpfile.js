@@ -116,12 +116,16 @@ gulp.task("compileFonts",function(){
 	gulp.src("./src/fonts/**/*").pipe(gulp.dest("dist/fonts"));
 })
 
+
+gulp.task("static",function(){
+	gulp.src("src/static/**/*").pipe(gulp.dest("dist/static"));
+})
 gulp.task("watching",()=>{
 	gulp.watch("src/css/**/*.css",["compileCSS"])
 })
 
 //只是编译
-gulp.task("build",["compileHTML","compileJS","compileCSS","compileImgs","compileFonts"])
+gulp.task("build",["compileHTML","compileJS","compileCSS","compileImgs","compileFonts","static"])
 
 
 
@@ -139,11 +143,14 @@ gulp.task("webserver",function(){
 		res.setHeader("Content-Type","text/plain;charset=utf-8");  //设置请求头信息
 		res.setHeader("Access-Control-Allow-Origin","*")//允许跨域
 		let proxy = https.request({
-			hostname:"www.smartisan.com",
-			path:"/product/shop_categories",
+			hostname:"www.eastdane.com",			 
+			path:"/products?filter&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40",
+			     //products?filter&merchandiseCategory=&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40				 
+			 // hostname:"www.smartisan.com",
+			 // path:"/product/shop_categories",
 			method:'get'
 		},(response)=>{
-			response.pipe(res);
+			response.pipe(res);	
 		});
 		proxy.end();
 	})
@@ -152,4 +159,5 @@ gulp.task("webserver",function(){
 	gulp.watch("./src/index.html",["compileHTML"]);  //监听html文件
 	gulp.watch("./src/scripts/**/*.js",["compileJS"]);
 	gulp.watch("./src/css/**/*.css",["compileCSS"]);
+	gulp.watch("./src/static/**/*",["static"]);
 })
