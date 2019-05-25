@@ -88,7 +88,7 @@ const zip = require("gulp-zip");
 //编译html
 gulp.task("compileHTML",function(){	
 	gulp.src("./src/index.html").pipe(gulp.dest("dist"));
-	//gulp.src("./src/html/**/*.html").pipe(gulp.dest("dist/html"));
+	gulp.src("./src/html/**/*.html").pipe(gulp.dest("dist/html"));
 	
 })
 //编译js

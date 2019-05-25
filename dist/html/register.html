@@ -5,9 +5,11 @@
 		<title>注册</title>
 		<link rel="stylesheet" href="../css/bootstrap.css" type="text/css" />
 		<link rel="stylesheet" href="../css/login.css" type="text/css" />
-		<script src="../scripts/jquery-2.0.3.js" type="text/javascript"> </script>
+		<script src="../scripts/login.js"></script>
+		<script src="../scripts/jquery-2.0.3.js" type="text/javascript"></script>
 		<script src="../scripts/jquery.validate.js" type="text/javascript"></script>
 		<script src="../scripts/messages_zh.js" type="text/javascript"></script>
+
 	</head>
 	<body>
 		<div class="container">
@@ -16,24 +18,24 @@
 					<div class="text-center logoimg">
 						<img src="../imgs/logo.png" />
 					</div>
-					<form method="post" action="#" id="registerEastdance">
+					<form action="#" method="post" id="registerEastdance">
 						<h2>创建用户</h2>
 						<div class="form-group">
 							<label for="username">您的姓名</label>
-							<input type="text" id="username" id="username" placeholder="">
+							<input type="text" name= "username" class="form-control" id="username" placeholder="">
 						</div>
 						<div class="form-group">
 							<label for="exampleInputEmail1">邮箱地址</label>
-							<input type="email" name="exampleInputEmail1" id="exampleInputEmail1" placeholder="">
+							<input type="email" class="form-control" id="exampleInputEmail1" placeholder="">
 						</div>
 						<div class="form-group">
 							<label for="password">密码</label>
-							<input type="password" name="password" id="password" placeholder="至少6个字符">
+							<input type="password" class="form-control"  id="password" name="password" placeholder="至少6个字符">
 							<i class="a-icon a-icon-alert"></i><span>密码必须至少6个字符</span>
 						</div>
 						<div class="form-group">
 							<label for="confirm_password">再次输入密码</label>
-							<input type="password" name="confirm_password" id="confirm_password" placeholder="">
+							<input type="password" class="form-control" id="confirm_password" name= "confirm_password" placeholder="">
 						</div>
 						<button type="submit" class="btn btn-danger btn-block ">创建用户</button> <!-- btn-block变成块级元素，将其延申至父元素100%的宽度 -->
 						<h5>若您创建账户，即表示您同意我们<a href="#">隐私声明</a>和<a href="#">使用条件</a> </h5>
@@ -64,7 +66,6 @@
 		<h5>© 1999-2018 BOP LLC. 保留所有权利。<a href="#">隐私声明使用条件</a></h5></div>
 	</body>
 </html>
-
 <script>
 	$().ready(function() {
 // 在键盘按下并释放及提交后验证提交表单
@@ -87,13 +88,11 @@
         required: true,
         email: true
       },
-
     },
     messages: {
-
       username: {
         required: "请输入用户名",
-        minlength: "用户名必需由两个字母组成"
+        minlength: "用户名至少两位"
       },
       password: {
         required: "请输入密码",
@@ -104,7 +103,7 @@
         minlength: "密码长度不能小于 6 个字母",
         equalTo: "两次密码输入不一致"
       },
-      exampleInputEmail1: "请输入一个正确的邮箱"
+      email: "请输入一个正确的邮箱"
      }
     })
 });
