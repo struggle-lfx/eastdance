@@ -10,8 +10,6 @@
 		<script src="../scripts/floatPanel.js" type="text/javascript"></script>
 		<link href="../css/floatPanel.css" rel="stylesheet" type="text/css" />
 		<script src="../scripts/jquery-2.0.3.js" type="text/javascript"> </script>
-		<script src="../scripts/jquery.validate.js" type="text/javascript"></script> 
-		<script src="../scripts/messages_zh.js" type="text/javascript"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -20,23 +18,23 @@
 					<div class="text-center logoimg">
 						<img src="../imgs/logo.png" />
 					</div>
-					<form method="post" action="#" id = "loginEastdance">
+					<div  id = "loginEastdance">
 						<h2>登录</h2>
 						<div class="form-group">
 							<label for="exampleInputEmail1">邮箱地址</label>
 							<input type="email" name="exampleInputEmail1" class="form-control" id="exampleInputEmail1" placeholder="">
 						</div>
 						<div class="form-group">
-							<label for="exampleInputPassword1">密码</label><span><a href="#">忘记密码</a></span>
-							<input type="password" name="exampleInputPassword1" class="form-control"  id="exampleInputPassword1" placeholder="">
+							<label for="password">密码</label><span><a href="#">忘记密码</a></span>
+							<input type="password" name="password" class="form-control"  id="password" placeholder="">
 						</div>
-						<button type="submit" class="btn btn-danger btn-block ">登录</button> <!-- btn-block变成块级元素，将其延申至父元素100%的宽度 -->
+						<button type="submit" class="btn btn-danger btn-block " onclick="login()">登录</button> <!-- btn-block变成块级元素，将其延申至父元素100%的宽度 -->
 						<div class="checkbox">
 							<label>
 								<input type="checkbox"> 记住登录状态。
 							</label>&nbsp;&nbsp;<b id="details"><a href="#">详情</a></b>
 						</div>
-					</form>
+					</div>
 					<div class="login-mode">
 						<h5>更多登录方式</h5>
 					</div>
@@ -65,23 +63,71 @@
 </html>
 
 <script>
-	$().ready(function() {
-// 在键盘按下并释放及提交后验证提交表单
-  $("#loginEastdance").validate({
-    rules: {
-      exampleInputEmail1: {
-        required: true,
-        email: true
-      },
-      exampleInputPassword1: {
-        required: true,
-		minlength:8
-      }
-    },
-    messages: {
-      exampleInputEmail1: "请输入一个正确的邮箱"
-     }
-    })
-});
+ function login() {
+            if(isNone()) {
+                if(localStorage.user) {
+                    // 从localStorage取出键为user的数据模型
+                    arr = eval(localStorage.user);
+                    let k = 0;
+                    // 循环取出，可用其他方法代理，数据量多的情况下，不建议使用for循环
+                    for(e in arr) {
+                        // 判断用户名，密码是否和localStorage中的数据一致，兼容性写法必须添加trim(),不需要兼容可以不写
+                        if($('#exampleInputEmail1').val().trim() == arr[e].exampleInputEmail1) {
+                            if($('#password').val().trim() == arr[e].password) {
+                                alert('登录成功');
+                                // 成功后清除用户名和密码
+                                clear();
+                                k = 0;
+                                // 成功之后对整个登录页面ID为web的部分重新换为成功的标识（也可以选择跳转到成功页面）
+                               window.location.href="http://localhost:8000 ";
+                                return;
+                            } else {
+                                alert('密码错误');
+                                // 失败后清除用户名和密码
+                                clear();
+                                k = 0;
+                                return;
+                            }
+                        } else {
+                            k = 1;
+                        }
+                    }
+                    if(k == 1) {
+                        alert('邮箱不存在');
+                        clear();
+                    }
+                } else {
+                    alert('用户名不存在，正在跳转到注册页面！');
+                    window.location.href="register.html";
+                    clear();
+                }
+            }
+        }
+
+        /**
+         * 清空数据
+         * 等同于
+         * document.getElementById("loginName").value="";
+         * document.getElementById("loginPsd").value="";
+         */
+        function clear() {
+            $('#exampleInputEmail1').val('');
+            $("#password").val('');
+        }
+
+        /**
+         * 登录的验证方法
+         * 是否为空的判断
+         */
+        function isNone() {
+            if($('#exampleInputEmail1').val().trim() == "") {
+                alert('邮箱不能为空');
+                return false;
+            } else if($('#password').val().trim() == "") {
+                alert('密码不能为空');
+                return false;
+            }
+            return true;
+        }
 	
 </script>

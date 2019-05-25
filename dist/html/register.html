@@ -5,10 +5,7 @@
 		<title>注册</title>
 		<link rel="stylesheet" href="../css/bootstrap.css" type="text/css" />
 		<link rel="stylesheet" href="../css/login.css" type="text/css" />
-		<script src="../scripts/login.js"></script>
 		<script src="../scripts/jquery-2.0.3.js" type="text/javascript"></script>
-		<script src="../scripts/jquery.validate.js" type="text/javascript"></script>
-		<script src="../scripts/messages_zh.js" type="text/javascript"></script>
 
 	</head>
 	<body>
@@ -18,7 +15,7 @@
 					<div class="text-center logoimg">
 						<img src="../imgs/logo.png" />
 					</div>
-					<form action="#" method="post" id="registerEastdance">
+					<div id="registerEastdance">
 						<h2>创建用户</h2>
 						<div class="form-group">
 							<label for="username">您的姓名</label>
@@ -37,9 +34,9 @@
 							<label for="confirm_password">再次输入密码</label>
 							<input type="password" class="form-control" id="confirm_password" name= "confirm_password" placeholder="">
 						</div>
-						<button type="submit" class="btn btn-danger btn-block ">创建用户</button> <!-- btn-block变成块级元素，将其延申至父元素100%的宽度 -->
+						<button type="submit" class="btn btn-danger btn-block " onclick="register()">创建用户</button> <!-- btn-block变成块级元素，将其延申至父元素100%的宽度 -->
 						<h5>若您创建账户，即表示您同意我们<a href="#">隐私声明</a>和<a href="#">使用条件</a> </h5>
-					</form>
+					
 					<div class="login-mode ">
 						<h5>其他注册方式</h5>
 					</div>
@@ -53,7 +50,7 @@
 					<div class="loginto">
 						<h5>已有账户?<a href="login.html"> 登录</a></h5>
 					</div>
-					
+					</div>
 
 				</div>
 			</div>
@@ -67,45 +64,70 @@
 	</body>
 </html>
 <script>
-	$().ready(function() {
-// 在键盘按下并释放及提交后验证提交表单
-  $("#registerEastdance").validate({
-    rules: {
-      username: {
-        required: true,
-        minlength: 2
-      },
-      password: {
-        required: true,
-        minlength: 6
-      },
-      confirm_password: {
-        required: true,
-        minlength: 6,
-        equalTo: "#password"
-      },
-      exampleInputEmail1: {
-        required: true,
-        email: true
-      },
-    },
-    messages: {
-      username: {
-        required: "请输入用户名",
-        minlength: "用户名至少两位"
-      },
-      password: {
-        required: "请输入密码",
-        minlength: "密码长度不能小于 6 个字母"
-      },
-      confirm_password: {
-        required: "请输入密码",
-        minlength: "密码长度不能小于 6 个字母",
-        equalTo: "两次密码输入不一致"
-      },
-      email: "请输入一个正确的邮箱"
-     }
-    })
-});
+	
+	function register() {
+            if(isNone()) {
+                // 定义一个空数组
+                let arr = [];
+                if(localStorage.user) {
+                    arr = eval(localStorage.user);
+                    for(e in arr) {
+                        // 取出数据判断是否注册过
+                        if($('#username').val().trim() == arr[e].loginName) {
+                            alert('该账号已被注册');
+                            clear();
+                            return;
+                        }
+                    }
+                }
+                const user = {
+                    'username': $("#username").val(),
+                    'exampleInputEmail1': $("#exampleInputEmail1").val(),
+					'password': $("#password").val(),
+					'confirm_password': $("#confirm_password").val(),
+                };
+                // 添加数据
+                arr.push(user);
+                localStorage.user = JSON.stringify(arr);
+                alert('注册成功');
+                window.location.href="login.html";
+                clear();
+            }
+        }
+        
+        function clear() {
+            $('#username').val('');
+            $("#password").val('');
+			$("exampleInputEmail1").val('');
+            $("#confirm_password").val('');
+        }
+        
+        /**
+         * 注册的验证方法
+         * 是否为空的判断
+         * 两次密码是否相等的判断
+         */
+        function isNone() {
+            if($('#username').val().trim() == "") {
+                alert('用户名不能为空');
+                return false;
+            }else if($('#exampleInputEmail1').val().trim() == ""){
+				alert('邮箱不能为空');
+				return false;
+			}else if(!$('#exampleInputEmail1').val().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)){
+				alert('邮箱格式不正确');
+				return false;
+			}else if($('#password').val().trim() == "") {
+                alert('密码不能为空');
+                return false;
+            }else if($('#password').val().length<6){
+				 alert('密码长度小于6位');
+				return false;
+			}else if($('#password').val().trim() != $('#confirm_password').val().trim()) {
+                alert('两次密码不一致，请检查！');
+                return false;
+            }
+            return true;
+        }
 	
 </script>
