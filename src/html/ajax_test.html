@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>测试</title>
+		<link rel="stylesheet" type="text/css" href="../css/test.css" />
+	</head>
+	<body>
+		
+		aaaaaddddddccccccsssssccccccccc
+	</body>
+</html>
+<script>
+	let xhr = new XMLHttpRequest();
+	xhr.open("get","http://localhost:9000/api/goodlist");
+	xhr.onload = function(){
+		console.log(xhr.response);
+	}
+	xhr.send();
+	
+</script>

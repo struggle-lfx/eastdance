@@ -1,0 +1,22 @@
+.detail{
+	overflow: hidden;
+}
+
+.detail ul li{
+	margin-bottom: 8px;
+}
+.detail ul{
+	padding-left: 40px;
+	float: left;
+}
+.detail h4{
+	line-height: 20px;
+	padding: 10px 0 10px 20px;
+}
+
+.detail_big{
+	
+	float: left;
+	
+	margin: 0 84px 0 44px;
+}
