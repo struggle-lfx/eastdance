@@ -11,79 +11,6 @@ const zip = require("gulp-zip");
 const http = require("http");
 
 
-// gulp.task("abc",function(){ 
-// 	console.log("abc执行了")
-// })
-// 
-// //编译js
-// gulp.task('compileJS', () =>
-//     gulp.src('./scripts/login.js')    //读取
-//         .pipe(babel({
-//             presets: ['@babel/env']
-//         }))
-//         .pipe(gulp.dest('dist'))
-// );
-// 
-// 
-// //压缩js
-// gulp.task('compressJS', function () {
-//         gulp.src('./scripts/login.js')
-// 		.pipe(babel({
-// 		    presets: ['@babel/env']
-// 		}))
-// 		.pipe(uglify())      //先压缩
-// 		.pipe( gulp.dest('dist'))   //再放到dist目录下            
-// });
-// 
-// 
-// //压缩css
-// gulp.task('compressCSS', function () {
-//      gulp.src('./css/index.css')
-//         .pipe(csso())
-//         .pipe(gulp.dest('dist'));
-// });
-// 
-// 
-// //rename重命名
-// gulp.task("rename",function(){
-// 	gulp.src("./css/index.css")
-// 	.pipe(csso())
-// 	.pipe(rename("index.txt"))
-// 	.pipe(gulp.dest("dist"))
-// })
-// 
-// 
-// //压缩文件夹
-// gulp.task("zip",function(){
-// 	gulp.src("css/*")
-// 	.pipe(zip("abc.zip"))
-// 	.pipe(gulp.dest("dist"))
-// })
-// 
-// 
-// 
-// gulp.task('prefix', () =>
-//     gulp.src('css/test.css')
-//         .pipe(autoprefixer())
-//         .pipe(gulp.dest('dist'))
-// );
-
-
-// gulp.task('webserver', function() {
-//   gulp.src('src')
-//     .pipe(webserver({
-// 		https:true,
-// 		open: true,
-//       livereload: true,   //自动刷新
-//      // directoryListing: true,   //读取目录
-// 	  proxies:[{source: '/eastdance/products', 
-// 				//target: 'https://www.eastdane.com/products/1538033286/productSimilarities?limit=10&offset=0&sku=NORSE30381&imageSize=120x211', 
-// 				target:'https://www.baidu.com',
-// 				options: {headers: {'ABC_HEADER': 'abc'}}}] //代理服务器
-//       
-//     }));
-// });
-// 
 
 
 //编译html
@@ -94,7 +21,7 @@ gulp.task("compileHTML",function(){
 })
 //编译js
 gulp.task("compileJS",function(){
-	gulp.src("./src/scripts/***.js")  //读取文件
+	gulp.src("./src/scripts/**/*.js")  //读取文件
 	.pipe(babel({    //编译
 		presets:['@babel/env']
 	}))

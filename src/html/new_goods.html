@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
 		<script src="../scripts/new_goods.js" type="text/javascript"></script>
 		<script src="../static/scripts/myTemplate.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../static/scripts/ajax.js"></script>
 
 	</head>
 	<body>
@@ -226,8 +227,8 @@
 
 		<div class="contain">
 			<div class="container">
-				<div class="row">
-					
+				<div class="row" id="goodslist">
+
 				</div>
 
 			</div>
@@ -334,40 +335,85 @@
 
 
 	</body>
-	<script type="text/html" id ="goods_list">
-		<div class="col-sm-6 col-md-3">
+<script type="text/html" id="goods_list">
+	<div class="col-sm-6 col-md-3">
 			<div class="thumbnail">
-				<img src="<%=details.imgurl %>">
+				<img src="<%=arr[0].imgurl%>">
 				<div class="caption">
-					<h4><%=details.brand %></h4>
-					<p><%=details.productCode %>n</p>
-					<p><%=details.price %></p>
+					<h4><%=arr[0].brand %></h4>
+					<p><%=arr[0].productCode%>n</p>
+					<p><%=arr[0].price%></p>
 				</div>
 			</div>
 		</div>
 	</script>
 </html>
 <script>
+var tel = `<div class="col-sm-6 col-md-3">
+			<div class="thumbnail">
+				<img src="<%=imgurl%>">
+				<div class="caption">
+					<h4><%=brand %></h4>
+					<p><%=productCode%>n</p>
+					<p><%=price%></p>
+				</div>
+			</div>
+		</div>`
+
 	let xhr = new XMLHttpRequest();
 	//xhr.open("get", "http://localhost:9000/api/goodlist");
 	xhr.open("get","../new_goods.json")
-	xhr.onload = function() {
-		
+	xhr.onload = function() {		
 		var data =JSON.parse(xhr.response);
-		console.log(data.products.length);
 		for(var i=0;i<data.products.length;i++){
-
+			var arr = []
 			var details = {				
 				brand:data.products[i].brand,
 				productCode:data.products[i].productCode,
 				imgurl:data.products[i].colors[0].productImage,
 				price:data.products[i].price.retail
 			}
-
-			console.log(details);
-			let html = template("goods_list",details);
-			console.log(html);
+			arr.push(details)
+			//console.log(arr);
+			 console.log(arr);
+			 // var goods = template("goods_list",{
+				//  imgurl:arr[i].imgurl,
+				//  brand:arr[i].brand,
+				//  productCode:arr[i].productCode,
+				//  price:arr[i].price				 
+			 // });
+			 // 
+			var goods = template("goods_list",arr);
+			// goodslist.innerHTML +=html
 		}
 	}
 	xhr.send();
+	
+	
+	// let xhr = new XMLHttpRequest();
+	// //xhr.open("get", "http://localhost:9000/api/goodlist");
+	// xhr.open("get","../new_goods.json")
+	// xhr.onload = function() {	
+	// 	
+	// 	for(var i=0;i<data.products.length;i++){
+	// 		
+	// 	}
+		
+	// }	
+	
+	
 </script>
+
+
+<script type="text/html" id="goods_list">
+	<div class="col-sm-6 col-md-3">
+			<div class="thumbnail">
+				<img src="<%=imgurl%>">
+				<div class="caption">
+					<h4><%=brand %></h4>
+					<p><%=productCode%>n</p>
+					<p><%=price%></p>
+				</div>
+			</div>
+		</div>
+	</script>

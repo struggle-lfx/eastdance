@@ -1,10 +1,5 @@
 window.onload=function(){
-	
 	var details = document.getElementsByClassName("details")[0];
-	// console.log(details);
-	// details.onclick=function(){
-	// 	alert("111");
-	// }
 	var panel1 = FloatPanel('panel1',{
 		width:387,
 		left:400,
