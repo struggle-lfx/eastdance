@@ -69,33 +69,16 @@ gulp.task("webserver",function(){
 	gulp.watch("./src/css/**/*.css",["compileCSS"]);
 	gulp.watch("./src/static/**/*",["static"]);
 	
-	
+	//www.eastdane.com/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211
+	//www.eastdane.com/products?filter&merchandiseCategory=&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40
+	//www.eastdane.com/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211",
 	//服务器代理
 	let app = express();
-	//app.use(express.static('dist'));   //读取静态文件
-	app.get('/api/goodlist',function(req,res){
-		res.setHeader("Content-Type","text/plain;charset=utf-8");  //设置请求头信息
-		res.setHeader("Access-Control-Allow-Origin","*")//允许跨域
-		let proxy = https.request({
-			hostname:"www.eastdane.com",	
-			path:"/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211",
-			//path:"/products?filter&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40",
-			     //products?filter&merchandiseCategory=&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40				 
-			 // hostname:"www.smartisan.com",
-			 // path:"/product/shop_categories",
-
-			method:'get'
-		},(response)=>{
-			response.pipe(res);	
-		});
-		proxy.end();
-	})
-	
+//获取商品列表数据
 	app.get("/goodlist", (req,res)=>{
 		res.setHeader("Access-Control-Allow-Origin","*"); //cors
-		//res.setHeader("Content-Type","text/plain; charset=utf8")  
-		res.setHeader("Content-Type","text/html; charset=utf8")
-		let proxy = http.request({
+		res.setHeader("Content-Type","text/plain; charset=utf8")
+		let proxy = https.request({
 			hostname: "www.eastdane.com",
 			path: "/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211",
 			method: 'get'
@@ -104,7 +87,63 @@ gulp.task("webserver",function(){
 		});
 		proxy.end();
 	})
+	//测试获取锤子的数据
+	app.get("/testSmartisan", (req,res)=>{
+		res.setHeader("Access-Control-Allow-Origin","*"); //cors
+		res.setHeader("Content-Type","text/plain; charset=utf8")  
+		let proxy = https.request({
+			hostname:"www.smartisan.com",
+			path:"/product/shop_categories",
+			method: 'get'
+		}, (response) => {
+			response.pipe(res);
+		});
+		proxy.end();
+	})
 	
+	//shopapi.smartisan.com/v1/search/goods-list?category_id=209&page=1&num=20&sort=sort&channel_id=1001&type=product
+	app.get('/api/goodlist',function(req,res){
+		res.setHeader("Content-Type","text/plain;charset=utf-8");  //设置请求头信息
+		res.setHeader("Access-Control-Allow-Origin","*")//允许跨域
+		let proxy = https.request({				 
+			 // hostname:"www.smartisan.com",
+			 // path:"/product/shop_categories",
+			 hostname:"shopapi.smartisan.com",
+			 path:"v1/search/goods-list?category_id=209&page=1&num=20&sort=sort&channel_id=1001&type=product",
+			method:'get'
+		},(response)=>{
+			response.pipe(res);	
+		});
+		proxy.end();
+	})
+	//测试获取同城艺龙数据
+		app.get("/city", (req,res)=>{
+		res.setHeader("Access-Control-Allow-Origin","*"); //cors
+		res.setHeader("Content-Type","text/plain; charset=utf8")
+		let proxy = http.request({
+			hostname: "hotel.elong.com",
+			path: "/ajax/search/stayincity/?_=1557992324354",
+			method: 'get'
+		}, (response) => {
+			response.pipe(res);
+		});
+		proxy.end();
+	})
+	//https://www.ly.com/homeinn/getdesareahotel?cityid=383&iid=0.7731890818946991	
+	app.get("/city2", (req,res)=>{
+		res.setHeader("Access-Control-Allow-Origin","*"); //cors
+		res.setHeader("Content-Type","text/plain; charset=utf8")  
+		let proxy = https.request({
+			hostname:"www.ly.com/homeinn",
+			path:"/homeinn/getdesareahotel?cityid=383&iid=0.7731890818946991",
+			method: 'get'
+		}, (response) => {
+			response.pipe(res);
+		});
+		proxy.end();
+	})
+	
+
 	app.listen(9000);
 
 })

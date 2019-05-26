@@ -2,22 +2,67 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>测试</title>
-		<link rel="stylesheet" type="text/css" href="../css/test.css" />
+		<title>测试获取动态数据</title>
+		<link type="text/css" rel="stylesheet" href="../css/bootstrap.css" />
+		
 	</head>
 	<body>
 		
-		aaaaaddddddccccccsssssccccccccc
+		测试获取动态数据
+		
+		<div class="container">
+			<div class="row" id="goodslist">
+		
+			</div>
+		
+		</div>
 	</body>
 </html>
 <script type="text/javascript">
 	let xhr = new XMLHttpRequest();
-	//xhr.open("get","http://localhost:9000/api/goodlist");
+	xhr.open("get","http://localhost:9000/city");
 	//xhr.open("get","https://www.eastdane.com/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211")
-	xhr.open("get","../data.json")
-	xhr.onload = function(){
+	//xhr.open("get","../data.json")
+	xhr.onload = function() {	
 		console.log(xhr.response);
+		// var record =JSON.parse(xhr.response);
+		// console.log(record.data.list.length);
+		// for(var i=0;i<record.data.list.length;i++){
+		// 	var arr = []
+		// 	var details = {				
+		// 		brand:data.products[i].brand,
+		// 		productCode:data.products[i].productCode,
+		// 		imgurl:data.products[i].colors[0].productImage,
+		// 		price:data.products[i].price.retail
+		// 	}
+		// 	arr.push(details)
+		// 	//console.log(arr);
+		// 	 console.log(arr);
+		// 	 // var goods = template("goods_list",{
+		// 		//  imgurl:arr[i].imgurl,
+		// 		//  brand:arr[i].brand,
+		// 		//  productCode:arr[i].productCode,
+		// 		//  price:arr[i].price				 
+		// 	 // });
+		// 	 // 
+		// 	var goods = template("goods_list",arr);
+		// 	// goodslist.innerHTML +=html
+		// }
 	}
 	xhr.send();
 	
 </script>
+<!-- 模板 -->
+<!-- <script type="text/html" id="goods_list">
+	<div class="col-sm-6 col-md-3">
+			<div class="thumbnail">
+				<img src="<%=arr[0].imgurl%>">
+				<div class="caption">
+					<h4><%=arr[0].brand %></h4>
+					<p><%=arr[0].productCode%>n</p>
+					<p><%=arr[0].price%></p>
+				</div>
+			</div>
+		</div>
+	</script>
+ -->
