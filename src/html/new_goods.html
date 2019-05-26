@@ -337,11 +337,11 @@
 	<script type="text/html" id ="goods_list">
 		<div class="col-sm-6 col-md-3">
 			<div class="thumbnail">
-				<img src="<%=data.products.colors.productImage %>">
+				<img src="<%=details.imgurl %>">
 				<div class="caption">
-					<h4><%=data.products.brand %></h4>
-					<p><%=data.products.shortDescriptio %>n</p>
-					<p><%=data.products.price.retail %></p>
+					<h4><%=details.brand %></h4>
+					<p><%=details.productCode %>n</p>
+					<p><%=details.price %></p>
 				</div>
 			</div>
 		</div>
@@ -349,22 +349,25 @@
 </html>
 <script>
 	let xhr = new XMLHttpRequest();
-	xhr.open("get", "http://localhost:9000/api/goodlist");
+	//xhr.open("get", "http://localhost:9000/api/goodlist");
+	xhr.open("get","../new_goods.json")
 	xhr.onload = function() {
 		
-		var data = xhr.response;
-		console.log(xhr.response);
-		// for(var i=0;i<dada.products.length;i++){
-		// 	var details = {
-		// 		imgurl:dada.products[i].colors.productImage,
-		// 		brand:dada.products[i].brand,
-		// 		productCode:dada.products[i].productCode,
-		// 		price:data.products[i].price.retail
-		// 	
-		// 	}
-			
-		// }
-		template("goods_list",data)
+		var data =JSON.parse(xhr.response);
+		console.log(data.products.length);
+		for(var i=0;i<data.products.length;i++){
+
+			var details = {				
+				brand:data.products[i].brand,
+				productCode:data.products[i].productCode,
+				imgurl:data.products[i].colors[0].productImage,
+				price:data.products[i].price.retail
+			}
+
+			console.log(details);
+			let html = template("goods_list",details);
+			console.log(html);
+		}
 	}
 	xhr.send();
 </script>

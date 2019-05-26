@@ -8,6 +8,7 @@ const autoprefixer = require("gulp-autoprefixer");
 const csso = require("gulp-csso");//压缩css
 const rename = require("gulp-rename");
 const zip = require("gulp-zip");
+const http = require("http");
 
 
 // gulp.task("abc",function(){ 
@@ -135,6 +136,12 @@ gulp.task("webserver",function(){
 	.pipe(webserver({
 			livereload:true,
 	}));
+	gulp.watch("./src/html/**/*.html",["compileHTML"]);  //监听html文件
+	gulp.watch("./src/index.html",["compileHTML"]);  //监听html文件
+	gulp.watch("./src/scripts/**/*.js",["compileJS"]);
+	gulp.watch("./src/css/**/*.css",["compileCSS"]);
+	gulp.watch("./src/static/**/*",["static"]);
+	
 	
 	//服务器代理
 	let app = express();
@@ -143,21 +150,34 @@ gulp.task("webserver",function(){
 		res.setHeader("Content-Type","text/plain;charset=utf-8");  //设置请求头信息
 		res.setHeader("Access-Control-Allow-Origin","*")//允许跨域
 		let proxy = https.request({
-			hostname:"www.eastdane.com",			 
-			path:"/products?filter&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40",
+			hostname:"www.eastdane.com",	
+			path:"/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211",
+			//path:"/products?filter&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40",
 			     //products?filter&merchandiseCategory=&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40				 
 			 // hostname:"www.smartisan.com",
 			 // path:"/product/shop_categories",
+
 			method:'get'
 		},(response)=>{
 			response.pipe(res);	
 		});
 		proxy.end();
 	})
+	
+	app.get("/goodlist", (req,res)=>{
+		res.setHeader("Access-Control-Allow-Origin","*"); //cors
+		//res.setHeader("Content-Type","text/plain; charset=utf8")  
+		res.setHeader("Content-Type","text/html; charset=utf8")
+		let proxy = http.request({
+			hostname: "www.eastdane.com",
+			path: "/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211",
+			method: 'get'
+		}, (response) => {
+			response.pipe(res);
+		});
+		proxy.end();
+	})
+	
 	app.listen(9000);
-	gulp.watch("./src/html/**/*.html",["compileHTML"]);  //监听html文件
-	gulp.watch("./src/index.html",["compileHTML"]);  //监听html文件
-	gulp.watch("./src/scripts/**/*.js",["compileJS"]);
-	gulp.watch("./src/css/**/*.css",["compileCSS"]);
-	gulp.watch("./src/static/**/*",["static"]);
+
 })

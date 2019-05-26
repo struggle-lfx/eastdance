@@ -12,7 +12,9 @@
 </html>
 <script type="text/javascript">
 	let xhr = new XMLHttpRequest();
-	xhr.open("get","http://localhost:9000/api/goodlist");
+	//xhr.open("get","http://localhost:9000/api/goodlist");
+	//xhr.open("get","https://www.eastdane.com/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211")
+	xhr.open("get","../data.json")
 	xhr.onload = function(){
 		console.log(xhr.response);
 	}
