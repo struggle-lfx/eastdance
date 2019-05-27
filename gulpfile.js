@@ -28,7 +28,6 @@ gulp.task("compileJS",function(){
 	.pipe(uglify())  //压缩
 	.pipe(gulp.dest("dist/scripts"));
 })
-
 //编译css
 gulp.task("compileCSS",function(){
 	gulp.src("./src/css/**/*.css")
@@ -68,6 +67,7 @@ gulp.task("webserver",function(){
 	gulp.watch("./src/scripts/**/*.js",["compileJS"]);
 	gulp.watch("./src/css/**/*.css",["compileCSS"]);
 	gulp.watch("./src/static/**/*",["static"]);
+	gulp.watch("./src/imgs/**/*",["compileImgs"]);
 	
 	//www.eastdane.com/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211
 	//www.eastdane.com/products?filter&merchandiseCategory=&sortBy.sort=PRIORITY%3ANATURAL&filterContext=19184&tDim=220x390&swDim=18x17&baseIndex=0&limit=40
@@ -80,7 +80,7 @@ gulp.task("webserver",function(){
 		res.setHeader("Content-Type","text/plain; charset=utf8")
 		let proxy = https.request({
 			hostname: "www.eastdane.com",
-			path: "/products/1539360168/productSimilarities?limit=10&offset=0&sku=AGJEA41561&imageSize=120x211",
+			path:"/product/1553659867/imageRotation?productId=1553659867&colorId=27573&bopSize=220x390",
 			method: 'get'
 		}, (response) => {
 			response.pipe(res);
@@ -100,14 +100,12 @@ gulp.task("webserver",function(){
 		});
 		proxy.end();
 	})
-	
+
 	//shopapi.smartisan.com/v1/search/goods-list?category_id=209&page=1&num=20&sort=sort&channel_id=1001&type=product
 	app.get('/api/goodlist',function(req,res){
 		res.setHeader("Content-Type","text/plain;charset=utf-8");  //设置请求头信息
 		res.setHeader("Access-Control-Allow-Origin","*")//允许跨域
 		let proxy = https.request({				 
-			 // hostname:"www.smartisan.com",
-			 // path:"/product/shop_categories",
 			 hostname:"shopapi.smartisan.com",
 			 path:"v1/search/goods-list?category_id=209&page=1&num=20&sort=sort&channel_id=1001&type=product",
 			method:'get'
@@ -143,7 +141,20 @@ gulp.task("webserver",function(){
 		proxy.end();
 	})
 	
+	
+		app.get("/test", (req,res)=>{
+		res.setHeader("Access-Control-Allow-Origin","*"); //cors
+		res.setHeader("Content-Type","text/plain; charset=utf8")  
+		let proxy = https.request({
+			hostname:"shopapi.smartisan.com",
+			path:"v1/cms/second_nav",
+			method: 'get'
+		}, (response) => {
+			response.pipe(res);
+		});
+		proxy.end();
+	})
 
 	app.listen(9000);
-
+	//https://shopapi.smartisan.com/v1/cms/second_nav
 })

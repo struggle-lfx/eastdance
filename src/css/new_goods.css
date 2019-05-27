@@ -1,0 +1,14 @@
+.list ul li {
+	float: left;
+	padding: 17px;
+	border-right: 1px solid #000000;
+}
+
+.list{
+	clear: both;
+	overflow: hidden;
+}
+
+.list ul li p{
+	line-height: 16px;
+}

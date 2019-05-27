@@ -325,14 +325,10 @@ padding-bottom: 8px;
 
 .list4 img {
 	float: left;
-
 }
-
 .footer {
 	margin: 45px 0 15px;
-	overflow: hidden;
 }
-
 .footer ul {
 	float: left;
 	margin-left: 30px;
@@ -343,7 +339,6 @@ padding-bottom: 8px;
 	font-size: 10px;
 	line-height: 16px;
 }
-
 .contain2 {
 	width: 784px;
 	margin: 0 auto;
